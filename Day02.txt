@@ -1,0 +1,60 @@
+Day 2 - Installing Docker and Docker CLI Basics
+_______________________________________________
+ဒီနေ့မှာတော့ Docker ကို System ထဲမှာ install လုပ်တာနဲ့ Docker CLI (Command Line Interface) မှာ အသုံးပြုရမယ့် အခြေခံ command တွေကို လေ့လာသွားမှာ ဖြစ်ပါတယ်။
+
+🐳 Docker Installation (Ubuntu 24.04 မှာ)
+________________________________________
+✅ Step-by-Step Installation (Command Line)
+🔧 Terminal ထဲမှာ အောက်ပါအဆင့်တွေလိုက်ပါ—
+1. System ကို update လုပ်ပါ
+
+sudo apt update
+sudo apt upgrade -y
+
+2. Docker package ကို install လုပ်ပါ
+
+sudo apt install docker.io -y
+
+3. Docker service ကို start & enable လုပ်ပါ
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+4. Docker version စစ်ပါ
+
+docker --version
+✅ Docker version 20.xx.x, build xxxx ဆိုပြီး output တက်ရင် OK ဖြစ်ပါပြီ။
+
+5. Docker ကို sudo မသုံးဘဲ အသုံးပြုချင်လား?
+
+Docker CLI မှာ sudo မသုံးချင်ရင် အောက်ပါ command ကို run လုပ်ပါ:
+sudo usermod -aG docker $USER
+ပြီးတာနဲ့ Terminal ကို ပြန်ဖွင့်ပါ (သို့မဟုတ် reboot လုပ်ပါ)
+
+🧑‍💻 Docker CLI (Command Line Interface) Basics
+_____________________________________________
+Docker CLI ကတော့ Terminal မှာ docker command တွေနဲ့ စနစ်တကျ အသုံးပြုနိုင်တဲ့ interface ဖြစ်ပါတယ်။
+
+📦 Docker CLI Basic Commands
+____________________________
+Command				Description
+___________________________________________
+docker --version		Docker version စစ်ခြင်း
+docker info			System Docker information
+docker run hello-world		Docker ကို test run
+docker ps			လက်ရှိ run ဖြစ်နေတဲ့ containers
+docker ps -a			ရပ်ထားတဲ့ containers အပါအဝင်
+docker images			Pulled images တွေကြည့်
+docker stop <container_id>	Container ရပ်တန့်
+docker rm <container_id>	Container ဖျက်
+docker rmi <image_id>		Image ဖျက်
+docker pull <image>		DockerHub မှ image ယူ
+
+📘 Summary
+__________
+Topic			What you did
+Docker Install		Ubuntu 24.04 မှာ install လုပ်တယ်
+Start Docker		systemctl ဖြင့် start & enable
+CLI Commands		run, ps, images, stop, rm, rmi
+
+========================================================================//

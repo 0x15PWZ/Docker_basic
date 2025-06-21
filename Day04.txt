@@ -1,0 +1,75 @@
+Day 4 - Managing Containers
+___________________________
+ဒီနေ့မှာတော့ Docker container တွေကို start, stop, restart လုပ်နည်း၊ log ကြည့်နည်းနဲ့ container ထဲကိုဝင်ပြီး command run လုပ်နည်းတွေကို လေ့လာသွားမှာ ဖြစ်ပါတယ်။
+
+🧰 သင်ကြားရမယ့်အကြောင်းအရာများ
+_____________________________
+Command			လုပ်ဆောင်ချက်
+_____________________________________________________________
+docker start		ရပ်နေတဲ့ container ကို ပြန်ဖွင့်
+docker stop		Container ကို ရပ်ချင်တဲ့အခါ
+docker restart		ပြန်စချင်တဲ့အခါ
+docker logs		Container မှ stdout (output) ကြည့်
+docker exec		Container ထဲမှာ command တွေ run လုပ်
+docker attach		Container ထဲကို လက်ခံဝင်
+
+🧪 လက်တွေ့လုပ်ကြည့်မယ်
+1️⃣ ရှိပြီးသား container တစ်ခု run မယ်
+docker run -d --name mynginx -p 8080:80 nginx
+
+2️⃣ Container list ကြည့်မယ်
+docker ps -a
+
+3️⃣ Container ရပ်မယ်
+docker stop mynginx
+
+4️⃣ ပြန်စမယ်
+docker start mynginx
+
+5️⃣ ပြန်စနည်းတစ်ခုလုံး
+docker restart mynginx
+
+📜 Logs ကြည့်နည်း
+________________
+Container ထဲမှာ stdout ထွက်တဲ့ logs တွေကိုကြည့်ချင်တယ်ဆိုရင်
+docker logs mynginx
+➡ -f နဲ့ follow logs:
+docker logs -f mynginx
+
+🛠️ Container ထဲကို ဝင်ပြီး command run လုပ်ချင်ရင်
+docker exec -it mynginx bash
+-it = interactive terminal
+bash = shell open (Alpine base image မျိုးဖြစ်ရင် sh ဆိုတာကိုသုံးနိုင်)
+
+➡ ဥပမာ – nginx container ထဲမှာ ls လုပ်ချင်တယ်ဆိုရင်:
+
+docker exec mynginx ls /usr/share/nginx/html
+
+🔁 Container attach vs exec
+Command				ဖော်ပြချက်
+docker exec -it			Container ထဲကို command တစ်ခုပြီးတာနဲ့ ပြန်ထွက်
+docker attach			Container ထဲကို direct connect လုပ်ပြီး stdout/stderr output တွေမြန်မြန်ရ
+
+docker attach mynginx
+
+➡ ပြန်ထွက်ချင်ရင် CTRL + P နဲ့ CTRL + Q နဲ့ detach ဖြစ်ပါတယ် (container မရပ်ဘူး)
+➡ CTRL + C နဲ့ထွက်ရင် container ရပ်သွားတတ်တယ်။
+
+💡 Tip
+Container အမည် (Name) မေ့သွားတယ်ဆိုရင် ID နဲ့တင်လည်း command တွေ run လို့ရတယ်
+docker ps -a
+docker stop <container_id>
+
+📘 Summary Table
+________________
+Command				ဘာလုပ်လဲ
+_______________________________________________________________
+docker ps -a			Container list (run + stopped)
+docker start <name>		Container ကို run
+docker stop <name>		Container ကို ရပ်
+docker restart <name>		ပြန်စ
+docker logs <name>		Logs ကြည့်
+docker exec -it <name> bash	Container ထဲ command run
+docker attach <name>		Container ကို connect
+===========================================================================//
+

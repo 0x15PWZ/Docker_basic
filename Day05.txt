@@ -1,0 +1,73 @@
+Day 5 - Dockerfile, Custom Image Creation & Tagging 
+___________________________________________________
+ဒီနေ့မှာတော့ Docker ကို သုံးပြီး သင်ကိုယ်တိုင် Image တစ်ခုဖန်တီးနည်း၊
+Dockerfile ရေးနည်း၊ docker build, docker tag command အသုံးပြုပုံ စတာတွေကို သေချာလေ့လာသွားမှာ ဖြစ်ပါတယ်။
+
+🧱 Dockerfile ဆိုတာဘာလဲ?
+_________________________
+Dockerfile ဆိုတာကတော့ Docker Image တစ်ခုဖန်တီးဖို့အတွက် လုပ်ဆောင်ရမယ့် အဆင့်တိုင်းကိုရေးထားတဲ့ text file တစ်ခုပဲ ဖြစ်ပါတယ်။
+
+➡ Example Dockerfile:
+
+# base image
+FROM python:3.9
+
+# working directory
+WORKDIR /app
+
+# copy files
+COPY . .
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# command to run
+CMD ["python", "app.py"]
+
+🛠️ လက်တွေ့လုပ်ကြည့်မယ်
+_____________________
+📁 Step 1 – Project Folder ဖန်တီးပါ
+mkdir myapp
+cd myapp
+📄 Step 2 – File ဖန်တီးပါ
+app.py
+print("Hello from custom Docker image!")
+
+
+🧾 Step 3 – Dockerfile ဖန်တီးပါ
+# Dockerfile
+FROM python:3.9
+WORKDIR /app
+COPY . .
+CMD ["python", "app.py"]
+
+🏗️ Step 4 – Image ကို Build လုပ်ပါ
+
+docker build -t mycustomimage:v1 .
+-t ➜ tag (name): mycustomimage:v1
+. ➜ current folder ကို build context အနေနဲ့သုံးတယ်
+➡ Build success ဖြစ်တာနဲ့ docker images နဲ့ကြည့်နိုင်တယ်။
+
+🚀 Step 5 – Image ကို Run လုပ်ကြည့်ပါ
+docker run mycustomimage:v1
+
+Output like this:
+Hello from custom Docker image!
+
+🏷️ Step 6 – Tag ထပ်တင်ချင်လျှင်
+docker tag mycustomimage:v1 mycustomimage:latest
+➡ Tag v1, latest စတာတွေနဲ့ versioning လုပ်နိုင်ပါတယ်။
+
+🧼 Step 7 – Clean Up (လိုအပ်ပါက)
+docker rmi mycustomimage:v1
+
+🧠 Summary Table
+________________
+Command				ဖော်ပြချက်
+docker build -t name:tag .	Dockerfile အပေါ်ကနေ image ဖန်တီး
+docker run name:tag		Image ကို container အဖြစ် run
+docker tag old:new new:tag	Tag အသစ်ပေး
+docker rmi image:tag		Image ဖျက်
+
+========================================================================//
+
