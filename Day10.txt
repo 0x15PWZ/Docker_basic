@@ -1,0 +1,110 @@
+✅ Day 10 - Dockerizing a Full Stack App (Frontend + Backend)
+_____________________________________________________________
+
+🧩 Full Stack App ဆိုတာဘာလဲ?
+➡️ Frontend: ReactJS / HTML-CSS-JS (User Interface)
+➡️ Backend: Node.js / Django / Flask (API logic)
+➡️ Database: PostgreSQL / MongoDB / Redis (optional)
+
+ဒီ app တွေကို Docker container ထဲမှာ သီးသန့် အနေနဲ့ run လိုက်မှာဖြစ်တယ်။
+
+📦 Project Structure
+
+fullstack-app/
+├── backend/
+│   ├── app.py (Flask app)
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/
+│   ├── index.html
+│   ├── styles.css
+│   └── Dockerfile
+├── docker-compose.yml
+
+🛠 Step-by-Step
+_________________
+✅ 1. Backend (Flask API)
+backend/app.py
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Welcome from Flask Backend!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
+backend/requirements.txt
+flask
+
+backend/Dockerfile
+
+FROM python:3.10-slim
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+CMD ["python", "app.py"]
+
+✅ 2. Frontend (Simple HTML)
+frontend/index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend</title>
+</head>
+<body>
+    <h1>Hello from Frontend</h1>
+    <p>Visit <a href="http://localhost:5000">Backend</a></p>
+</body>
+</html>
+
+frontend/Dockerfile
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+✅ 3. Docker Compose File
+docker-compose.yml
+
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+
+▶️ Run the App
+
+docker-compose up --build
+
+➡️ Now check:
+
+Frontend: http://localhost:3000
+Backend: http://localhost:5000
+
+💡 Bonus
+_________
+Add frontend to fetch data from backend using fetch() API.
+Add volume support for live reload.
+Push images to Docker Hub.
+Connect to a database (MySQL or Redis) using Docker.
+
+🎯 Mini Task
+____________
+Task	Description
+_______________________________________
+✅	Build full stack app as above
+✅	Dockerize frontend and backend
+✅	Connect them via Docker Compose
+✅	Push to Docker Hub (optional)
+
+================================================================//
+

@@ -1,0 +1,59 @@
+
+✅ Day 9 - Docker Hub & Image Repositories
+___________________________________________
+
+📦 Docker Hub ဆိုတာဘာလဲ?
+________________________
+Docker Hub ကတော့
+➡️ Docker images တွေကို store, share, distribute လုပ်နိုင်တဲ့
+➡️ Official public cloud registry တစ်ခုဖြစ်ပါတယ်။
+
+🔑 သင့်ရဲ့ project ကို docker build လုပ်ပြီး docker push နဲ့ Docker Hub ကိုတင်နိုင်ပါတယ်။
+
+🧱 Docker Hub အတွက် အဓိက Terms
+_______________________________
+အကြောင်းအရာ		ရှင်းပြချက်
+_________________________________________________________________
+Image			Docker container ကိုဖန်တီးဖို့အသုံးပြုတဲ့ template
+Repository		Docker image တစ်ခု (version/tag တွေနဲ့)
+Tag			Image version ကိုသတ်မှတ်ဖို့ (:latest, :v1.0)
+Docker ID		Docker Hub အသုံးပြုဖို့ account
+Public/Private		epository ကိုလူတိုင်းကြည့်လို့ရ/မရ
+
+🛠 Step-by-Step - Docker Hub ကိုသုံးပြီး Image တင်ခြင်း
+________________________________________________
+✅ 1. Docker Hub Account ဖွင့်ပါ
+➡️ https://hub.docker.com/
+➡️ Free account ဖွင့်ပါ
+➡️ Docker ID တစ်ခုရမှာပါ (ဥပမာ - tharphyoe)
+
+✅ 2. Local Image တစ်ခု Build လုပ်ပါ
+__________________________________
+
+cd ~/my-flask-app/
+docker build -t my-flask-app .
+
+✅ 3. Image ကို Tag တာ
+
+docker tag my-flask-app tharphyoe/my-flask-app:v1
+
+➡️ Syntax:
+
+docker tag SOURCE_IMAGE_NAME DOCKERHUB_USERNAME/REPO_NAME:TAG
+✅ 4. Docker Hub မှာ Login ဝင်ပါ
+
+docker login
+➡️ Username + Password ထည့်ပါ
+
+✅ 5. Image ကို Docker Hub ပေါ် Push လုပ်ပါ
+
+docker push tharphyoe/my-flask-app:v1
+
+➡️ Docker Hub ကို သွားပြီး repository တွင်ကြည့်နိုင်ပြီ
+
+🔁 Image ကို ထပ်မံသုံးချင်ရင်
+
+docker pull tharphyoe/my-flask-app:v1
+docker run -p 5000:5000 tharphyoe/my-flask-app:v1
+
+===========================================================================

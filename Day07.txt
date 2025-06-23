@@ -1,0 +1,71 @@
+Day 7 - Docker Networking Basics 
+________________________________
+ဒီနေ့မှာတော့ Docker Networking အကြောင်းအရာကို လေ့လာမှာ ဖြစ်ပါတယ်။
+Docker container တွေဟာ တစ်ခုနဲ့တစ်ခု ဆက်သွယ်ဖို့ network များကို အသုံးပြုပါတယ်။
+
+🕸 Docker Network ဆိုတာဘာလဲ?
+___________________________
+Docker Network ကတော့ container တွေကို တစ်ခုနဲ့တစ်ခုချိတ်ဆက်ဖို့ သုံးတဲ့ virtual network တစ်ခုပါ။
+အဓိကတော့ container တစ်ခုကနေ တခြား container, host machine, internet တို့နဲ့ ဆက်သွယ်ဖို့ အသုံးပြုပါတယ်။
+
+🔌 Docker Network အမျိုးအစား (Types of Docker Networks)
+_____________________________________________________
+Network Type				ဖော်ပြချက်
+_____________________________________________________________________________________________
+bridge					Default network (single host မှာ container တွေချိတ်တယ်)
+host					Container ဟာ host OS နဲ့ တူညီတဲ့ network ကို share တယ်
+none					No network (isolation mode)
+overlay					Multiple Docker hosts ကိုချိတ်ဖို့ Swarm Mode မှာသုံးတယ်
+macvlan					Physical network နဲ့ container ကို MAC address နဲ့ချိတ်တယ်
+
+✅ Default Network ကြည့်ဖို့
+
+docker network ls
+➡ Default network ၃ ခုကြည့်ရမှာပါ – bridge, host, none
+
+🧪 Example 1: Bridge Network ကို အသုံးပြုမယ်
+
+docker run -dit --name container1 --network bridge ubuntu
+docker run -dit --name container2 --network bridge ubuntu
+docker exec -it container1 bash
+apt update && apt install -y iputils-ping
+ping container2
+➡ Container2 ကို name နဲ့ ping လို့မရပါဘူး။ Default bridge မှာ name resolution မထောက်ပံ့ပါ။
+
+🧪 Example 2: Custom Bridge Network
+
+docker network create mycustomnet
+➡ Custom bridge network ဖန်တီးတယ်။
+
+docker run -dit --name web1 --network mycustomnet ubuntu
+docker run -dit --name web2 --network mycustomnet ubuntu
+
+docker exec -it web1 bash
+apt update && apt install -y iputils-ping
+ping web2
+➡ Name-based communication အောင်မြင်ပါတယ် (ping web2 OK ✅)
+
+🧪 Example 3: Host Network
+
+docker run -dit --network host ubuntu
+➡ Host machine ရဲ့ network settings ကို share တယ်။
+
+ip addr
+➡ Host ရဲ့ IP တွေကိုတန်းတန်းကြည့်နိုင်တယ်။
+
+🌐 External Port Binding Example
+
+docker run -d -p 8080:80 nginx
+➡ Host IP: http://localhost:8080 မှာ nginx ကို access လုပ်နိုင်တယ်။
+
+📜 Command Summary Table
+________________________
+Command				ဖော်ပြချက်
+_________________________________________________________
+docker network ls		Network list ကြည့်ခြင်း
+docker network create name	Network အသစ်ဖန်တီးခြင်း
+docker network inspect name	Network info ကြည့်ခြင်း
+docker run --network name	Container ကို network မှာ run
+docker network rm name		Network ဖျက်ခြင်း
+
+===========================================================================================

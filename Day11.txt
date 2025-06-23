@@ -1,0 +1,122 @@
+
+✅ Day 12 - Dockerizing Django or Flask + PostgreSQL App
+_______________________________________________
+
+🧠 အဓိကသိထားရမယ့် အကြောင်းအရာများ
+Django (သို့) Flask app ကို PostgreSQL database နဲ့ချိတ်ပြီး Dockerize လုပ်တတ်ဖို့
+docker-compose.yml ဖြင့် multi-container app တည်ဆောက်တတ်ဖို့
+Environment variables နဲ့ .env ဖိုင်ကိုလည်း ထည့်သုံးတတ်ဖို့
+
+📦 Project Structure
+__________________
+django-postgres-app/
+├── backend/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── .env
+├── docker-compose.yml
+
+✅ Step-by-Step (Using Django Example)
+_________________________________________
+Step 1: Create Django Project
+
+mkdir django-postgres-app && cd django-postgres-app
+python3 -m venv venv
+source venv/bin/activate
+pip install django psycopg2-binary
+django-admin startproject myproject backend/myproject
+pip freeze > backend/requirements.txt
+
+Step 2: Dockerfile (in backend/ folder)
+
+# backend/Dockerfile
+FROM python:3.10-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /code
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+
+Step 3: .env file (in root project folder)
+
+
+POSTGRES_DB=devdb
+POSTGRES_USER=devuser
+POSTGRES_PASSWORD=devpass
+
+Step 4: docker-compose.yml
+
+version: "3.9"
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  
+  web:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  
+Step 5: Update Django Settings
+
+In backend/myproject/settings.py → DATABASES section:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("POSTGRES_DB"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': 'db',
+        'PORT': 5432,
+    }
+}
+
+Step 6: Build & Run
+
+docker-compose up --build
+
+Step 7: Run Migrations
+
+Open a new terminal:
+
+docker-compose exec web python manage.py migrate
+Then visit:
+➡️ http://localhost:8000
+
+💡 Flask Alternative
+
+For Flask + PostgreSQL, similar steps apply:
+Install psycopg2 or SQLAlchemy
+
+Configure DB URL: postgresql://user:pass@db:5432/dbname
+
+🎯 Mini Project Tasks
+______________________
+Task	Description
+_______________________________________________
+✅	Django/Flask App created
+✅	Connected to PostgreSQL
+✅	Dockerized using Dockerfile
+✅	Multi-container using docker-compose
+✅	.env used for secrets & settings
+
+===============================================================================//

@@ -1,0 +1,109 @@
+Day 8 – Docker Compose 
+______________________
+ဒီနေ့မှာတော့ Docker Compose ကို သုံးပြီး multi-container applications (အများကြီးသော container များ) ကို setup လုပ်နည်းကို သင်ကြားမှာ ဖြစ်ပါတယ်။
+
+🧩 Docker Compose ဆိုတာဘာလဲ?
+_____________________________
+Docker Compose ဆိုတာကတော့ YAML file (usually docker-compose.yml) တစ်ခုထဲမှာ
+application ရဲ့ services (containers), networks, volumes စသဖြင့် အကုန်ကို စုစုစည်းစည်း ရေးသားနိုင်ပြီး
+တစ်ခါတည်း setup လုပ်နိုင်တဲ့ tool တစ်ခုပါ။
+
+🎯 ဘာအတွက် သုံးကြသလဲ?
+_____________________
+App တစ်ခုမှာ Containers တစ်ခုထက်ပိုတာရှိလေ့ရှိတယ် (eg: web server + database)
+
+Docker command များစွာ run ထားစရာမလို
+Services တွေကို လွယ်လွယ်ကူကူ scale လုပ်လို့ရ
+Production, staging, dev environments တူတူထားလို့ရ
+
+🔧 Installation 
+________________
+sudo apt update
+sudo apt install docker-compose -y
+docker-compose --version
+
+
+🧪 Sample Project: Python Flask App + Redis
+___________________________________________
+
+📁 Folder Structure
+
+flask-redis-app/
+│
+├── app.py
+├── requirements.txt
+└── docker-compose.yml
+
+🐍 app.py
+
+from flask import Flask
+import redis
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+@app.route('/')
+def hello():
+    cache.incr('hits')
+    return f'Hello! This page has been visited {cache.get("hits").decode()} times.'
+
+📦 requirements.txt
+flask
+redis
+
+🧾 docker-compose.yml
+_____________________
+
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"
+    
+📂 Add Dockerfile
+________________
+
+# Use Python base image
+FROM python:3.8-slim
+
+# Set working directory
+WORKDIR /code
+
+# Copy dependency list
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Copy source code
+COPY . .
+
+# Run the app
+CMD ["python", "app.py"]
+
+▶ Run the project
+_________________
+
+docker-compose up --build
+
+➡ Browser မှာ http://localhost:5000 သွားပြီး flask app ကိုသုံးလို့ရပါပြီ ✅
+
+🛑 Other Useful Commands
+_________________________
+Command				ဖော်ပြချက်
+_____________________________________________________________
+docker-compose up		Compose project run လုပ်သည်
+docker-compose up -d		Background mode
+docker-compose down		Services အားလုံးကို stop & clean
+docker-compose ps		Running services list
+docker-compose logs		Log ကြည့်သည်
+
+=================================================================================//

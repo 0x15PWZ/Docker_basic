@@ -1,0 +1,71 @@
+✅ Day 13 - Review and Practice Exercises
+__________________________________________
+
+📌 အဓိကရည်ရွယ်ချက်
+__________________
+Docker နဲ့ ပတ်သက်တဲ့ ယနေ့အထိ လေ့လာပြီးသားအကြောင်းအရာတွေကို ပြန်သုံးသပ်ခြင်း
+ကိုယ်တိုင်လက်တွေ့ project လုပ်ကြည့်ခြင်း
+Concepts တွေကို Consolidate လုပ်ခြင်း 
+
+📘 ပြန်သုံးသပ်ရန် Topics
+__________________
+Day	Topic
+______________________________________________________________
+Day 1	Introduction to Docker Concepts
+Day 2	Installing Docker & CLI basics
+Day 3	Images vs Containers
+Day 4	Running Containers & Shell Access
+Day 5	Dockerfile & Image Tagging
+Day 6	Docker Volumes (Data Persistence)
+Day 7	Docker Networking Basics
+Day 8	Docker Compose
+Day 9	Docker Hub & Image Repositories
+Day 10	Fullstack App (Frontend + Backend) Dockerization
+Day 11	Environment Variables & Secrets
+Day 12	Django/Flask + PostgreSQL Dockerization
+
+🧪 Practice Exercises
+_____________________
+✅ 1. Docker CLI သုံးပြီးအောက်ဖော်ပြပါလုပ်ဆောင်ပါ
+nginx container တစ်ခု run ပြီး browser မှာ verify
+mysql container တစ်ခု run with root password env variable
+Docker image တစ်ခုကို pull & inspect
+
+✅ 2. Dockerfile Practice
+Custom Python script app တစ်ခုရေးပြီး Dockerfile တည်ဆောက်ပါ
+Web app တစ်ခုကို Dockerfile နဲ့ build → run → verify
+
+✅ 3. Docker Compose Practice
+2-container App: Flask + Redis
+3-container App: Django + PostgreSQL + Nginx (Reverse Proxy)
+
+✅ 4. Docker Hub Practice
+Docker Hub account တစ်ခုဖွင့်ပြီး
+ကိုယ့်ရဲ့ image တစ်ခုကို build & push
+docker login
+docker tag yourimage username/yourimage:tag
+docker push username/yourimage:tag
+
+🧠 Quiz/Review Questions
+
+Dockerfile မှာ WORKDIR, CMD, ENTRYPOINT ဆိုတာ ဘာလဲ?
+Image နဲ့ Container ကွာခြားချက်?
+docker-compose သုံးဖို့အကြောင်းအရာကဘာလဲ?
+.env file ကို production မှာ ဘယ်လို handle လုပ်သင့်လဲ?
+
+🧱 Final Mini Project Suggestion
+_______________________________
+✅ Task: Build a 3-tier web app
+Frontend: React or simple HTML
+Backend: Flask/Django
+Database: PostgreSQL
+Use Docker + Docker Compose
+
+🧩 GitHub Challenge
+___________________
+Try to push your Dockerized project to GitHub with:
+Dockerfile
+docker-compose.yml
+.env.example
+README.md (Usage instructions)
+==================================================================================//
